@@ -183,7 +183,10 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
                 self.connectedCall(self.data!)
             }else{
                 if let getArgs = args as? [String: Any] {
-                    self.data = Data(args: getArgs)
+                    // 保留所有原有參數，只更新 id
+                    var newArgs = self.data?.toJSON() ?? [:]
+                    newArgs["id"] = getArgs["id"]
+                    self.data = Data(args: newArgs)
                     self.connectedCall(self.data!)
                 }
             }
